@@ -10,6 +10,7 @@ from modmanifest.context import ScanContext
 from modmanifest.games.base import GameModule
 from modmanifest.games.dbpf import validate_dbpf
 from modmanifest.models import Finding, RecognizedFile, Status
+from modmanifest.scripts import audit_scripts
 
 PACKAGE_EXT = ".package"
 SCRIPT_EXT = ".ts4script"
@@ -32,6 +33,7 @@ class Sims4Module(GameModule):
     def validate(self, ctx: ScanContext) -> None:
         report = ctx.report
         packages = scripts = resources = unread = 0
+        loose_scripts: list[str] = []
         if report.target_kind == "ts4script":
             scripts += 1
             report.recognized_files.append(
@@ -59,6 +61,17 @@ class Sims4Module(GameModule):
                         RecognizedFile(entry.path, "sims4-script-archive", entry.size)
                     )
                     self._check_nested_script(ctx, entry.path, entry.readable)
+                elif ext in (".py", ".pyc") and entry.readable:
+                    loose_scripts.append(entry.path)
+            if loose_scripts:
+                audit_scripts(
+                    report,
+                    ctx.source,
+                    ctx.deadline,
+                    None,
+                    loose_scripts,
+                    ctx.limits.max_entry_bytes,
+                )
         report.package_info["sims4"] = {
             "packages": packages,
             "script_archives": scripts,
@@ -78,7 +91,8 @@ class Sims4Module(GameModule):
                 Finding(
                     "MM-S4-014",
                     Status.NOT_CHECKED,
-                    "script archive contents were not analyzed, imported or executed",
+                    "script archive contents were checked for static risk indicators only; "
+                    "nothing was imported or executed and behavior was not analyzed",
                 )
             )
         report.add(
@@ -148,6 +162,14 @@ class Sims4Module(GameModule):
                 )
             )
             return
+        audit_scripts(
+            ctx.report,
+            src,
+            ctx.deadline,
+            label,
+            [e.path for e in scripts if e.readable],
+            ctx.limits.max_entry_bytes,
+        )
         bad: list[str] = []
         checked = 0
         for entry in scripts:

@@ -137,4 +137,10 @@ def test_all_emitted_codes_are_registered() -> None:
 
 @pytest.mark.parametrize("code", sorted(CODES))
 def test_code_basis_is_valid(code: str) -> None:
-    assert CODES[code][1] in {"format-rule", "observed-convention", "safety-limit", "scan-coverage"}
+    assert CODES[code][1] in {
+        "format-rule",
+        "observed-convention",
+        "safety-limit",
+        "scan-coverage",
+        "static-heuristic",
+    }

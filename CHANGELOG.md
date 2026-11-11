@@ -8,6 +8,16 @@ This document tracks notable changes to the project as its inspection, validatio
 
 ---
 
+## ◇ Unreleased
+
+**Script indicators**
+
+- Added static script scanning for Python source, compiled `.pyc`, Lua, and JavaScript files, including those inside `.ts4script` archives and inZOI packages.
+- New findings `MM-SCR-001` to `MM-SCR-007` flag references to network access, process execution, dynamic code, and exfiltration-style endpoints, using the new `static-heuristic` basis.
+- Scripts are never imported or executed. Findings are pointers for review, not a malware verdict.
+
+---
+
 ## ◇ Version 0.1.0
 
 **Initial implementation · Alpha**

@@ -6,6 +6,7 @@ Basis values:
     format-rule          a documented or independently verified structural rule
     observed-convention  behaviour seen in sample packages, not an official requirement
     safety-limit         a defensive check or configurable scan limit
+    static-heuristic     a pattern match on script content; a pointer for review, not a verdict
     scan-coverage        describes what the tool did or did not inspect
 """
 
@@ -53,9 +54,26 @@ CODES: dict[str, tuple[str, str]] = {
     "MM-S4-011": ("Script archive has no .py or .pyc entries", "observed-convention"),
     "MM-S4-012": ("Compiled script header is not valid", "format-rule"),
     "MM-S4-013": ("Package resource contents were not decoded", "scan-coverage"),
-    "MM-S4-014": ("Script contents were not analyzed or executed", "scan-coverage"),
+    "MM-S4-014": ("Script contents were not fully analyzed or executed", "scan-coverage"),
     "MM-S4-015": ("No standard Sims 4 manifest; dependencies not extracted", "scan-coverage"),
     "MM-S4-016": ("Package too large to read from inside an archive", "scan-coverage"),
+    # Script indicators (all games)
+    "MM-SCR-001": ("Script references network capabilities", "static-heuristic"),
+    "MM-SCR-002": (
+        "Script references process execution, native code or system access",
+        "static-heuristic",
+    ),
+    "MM-SCR-003": (
+        "Script references dynamic code execution or encoded payloads",
+        "static-heuristic",
+    ),
+    "MM-SCR-004": (
+        "Script references file-hosting, webhook or credential-store markers",
+        "static-heuristic",
+    ),
+    "MM-SCR-005": ("Scripts scanned; no indicators found", "static-heuristic"),
+    "MM-SCR-006": ("Script file was not scanned", "scan-coverage"),
+    "MM-SCR-007": ("Python source could not be parsed", "scan-coverage"),
     # inZOI
     "MM-INZ-001": ("Candidate inZOI mod manifest parsed", "format-rule"),
     "MM-INZ-002": ("Manifest is not valid JSON", "format-rule"),
@@ -71,7 +89,7 @@ CODES: dict[str, tuple[str, str]] = {
         "scan-coverage",
     ),
     "MM-INZ-011": ("Unreal IoStore .ucas/.utoc pair is incomplete", "format-rule"),
-    "MM-INZ-012": ("Script and UI files were not analyzed", "scan-coverage"),
+    "MM-INZ-012": ("Script and UI files were not fully analyzed", "scan-coverage"),
     "MM-INZ-013": ("Declared dependencies were not verified", "scan-coverage"),
     "MM-INZ-014": ("Folder contains several candidate mods", "scan-coverage"),
     "MM-INZ-015": ("No official inZOI package specification was used", "scan-coverage"),
