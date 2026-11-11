@@ -8,7 +8,7 @@ This document tracks notable changes to the project as its inspection, validatio
 
 ---
 
-## ◇ Unreleased
+## ◇ Version 0.1.1
 
 **Script indicators**
 
