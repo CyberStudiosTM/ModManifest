@@ -14,6 +14,7 @@ from typing import Any
 from modmanifest.context import ScanContext
 from modmanifest.games.base import GameModule
 from modmanifest.models import Finding, RecognizedFile, Status, sanitize
+from modmanifest.scripts import audit_scripts
 
 MANIFEST = "mod_manifest.json"
 UNREAL_EXTS = (".pak", ".ucas", ".utoc")
@@ -336,10 +337,28 @@ class InzoiModule(GameModule):
                     )
                 )
         if scripts:
+            scan_paths = [
+                e.path
+                for e in ctx.source.entries
+                if e.kind == "file"
+                and e.readable
+                and e.path.startswith(root)
+                and _ext(e.path) in (".lua", ".js")
+            ]
+            audit_scripts(
+                report,
+                ctx.source,
+                ctx.deadline,
+                None,
+                scan_paths,
+                ctx.limits.max_entry_bytes,
+            )
             report.add(
                 Finding(
                     "MM-INZ-012",
                     Status.NOT_CHECKED,
-                    f"{scripts} script/UI file(s) listed; contents were not analyzed or executed",
+                    f"{scripts} script/UI file(s) listed; .lua and .js files were checked for "
+                    "static risk indicators only, and HTML/CSS were not analyzed. Nothing was "
+                    "executed",
                 )
             )

@@ -47,6 +47,7 @@ No executing unfamiliar scripts. No uploading your mods. No modifying package co
 | 📦 | **Package Inspection** | Examine supported mod structures and identify recognized formats. |
 | 🎮 | **Game-Aware Validation** | Run supported structural checks for The Sims 4 and inZOI. |
 | 🛡️ | **Archive Safety** | Identify suspicious paths, duplicate entries, archive limits, and other structural risks. |
+| 🔎 | **Script Indicators** | Flag static references to network access, process execution, dynamic code, and exfiltration-style endpoints in Python, Lua, and JavaScript files. |
 | ✦ | **AI Metadata Audit** | Detect supported AI-related metadata indicators without making unsupported authorship claims. |
 | ◇ | **Structured Reports** | Generate human-readable results or machine-readable JSON. |
 | 🔒 | **Read-Only Design** | Inspect without executing scripts, extracting archives, modifying files, or uploading content. |
@@ -67,8 +68,9 @@ No executing unfamiliar scripts. No uploading your mods. No modifying package co
 - Duplicate resource keys
 - Archive structure
 - Applicable compiled Python header information
+- Static script indicators in `.py`, compiled `.pyc`, `.lua`, and `.js` files
 
-Package resources are not decoded, and script contents are not executed or analyzed.
+Package resources are not decoded. Scripts are never imported or executed, and their behavior is not analyzed. Script findings are static pointers for human review, not a malware verdict.
 
 ### inZOI
 
@@ -271,7 +273,7 @@ JSON output is designed to make results easier to process programmatically.
 Current limitations include:
 
 - Sims 4 package resources are not decoded.
-- Script contents are not executed or analyzed.
+- Scripts are checked for static risk indicators only. They are never executed, and obfuscated or novel behavior may not be detected.
 - Unreal content container internals are not parsed.
 - Game compatibility and dependencies are not independently verified.
 - Unsupported archive formats may be recognized without being opened.
