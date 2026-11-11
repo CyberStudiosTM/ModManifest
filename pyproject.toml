@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "modmanifest"
+dynamic = ["version"]
+description = "Read-only inspection, validation and metadata auditing for game mod packages (The Sims 4, inZOI)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "CyberStudios" }]
+keywords = ["mods", "sims4", "inzoi", "audit", "metadata", "cli"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Quality Assurance",
+    "Typing :: Typed",
+]
+dependencies = [
+    "typer>=0.12",
+    "rich>=13.7",
+    "PyYAML>=6.0",
+    "defusedxml>=0.7.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+modmanifest = "modmanifest.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/CyberStudiosTM/ModManifest"
+Issues = "https://github.com/CyberStudiosTM/ModManifest/issues"
+Changelog = "https://github.com/CyberStudiosTM/ModManifest/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "src/modmanifest/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/modmanifest"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "README.md", "LICENSE", "CHANGELOG.md", "SECURITY.md", "CONTRIBUTING.md", "pyproject.toml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "ANN", "PT"]
+ignore = ["ANN401"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN", "PT018", "E501"]
