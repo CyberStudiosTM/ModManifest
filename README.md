@@ -1,371 +1,313 @@
+
+<div align="center">
+
 # ✦ ModManifest
 
-**Inspect the package. Understand the metadata. Know what was actually checked.**
+### Inspect the package. Understand the metadata.
 
-*An open-source mod inspection and metadata auditing toolkit from [CyberStudios™](https://github.com/CyberStudiosTM).*
+**Read-only mod inspection, validation & metadata auditing for The Sims 4 and inZOI.**
 
+[![PyPI](https://img.shields.io/pypi/v/modmanifest?style=for-the-badge&color=C6B6F3&label=PyPI)](https://pypi.org/project/modmanifest/)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-AED8F5?style=for-the-badge&logo=python&logoColor=202842)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-C6B6F3?style=for-the-badge)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Alpha-F4C8EA?style=for-the-badge)](CHANGELOG.md)
-[![CyberStudios](https://img.shields.io/badge/By-CyberStudios-A8E8DC?style=for-the-badge)](https://github.com/CyberStudiosTM)
+[![License](https://img.shields.io/badge/License-MIT-A8E8DC?style=for-the-badge)](https://github.com/CyberStudiosTM/ModManifest/blob/main/LICENSE)
+[![Status](https://img.shields.io/badge/Status-Alpha-F4C8EA?style=for-the-badge)](https://github.com/CyberStudiosTM/ModManifest/releases)
+
+*A developer utility from [CyberStudios™](https://github.com/CyberStudiosTM).*
+
+[Website](https://cyberthreed.github.io/CyberStudios/projects/modmanifest.html) · [Documentation](https://github.com/cyberthreed/CyberStudios/wiki/ModManifest) · [GitHub](https://github.com/CyberStudiosTM/ModManifest) · [PyPI](https://pypi.org/project/modmanifest/)
 
 ---
 
-### ◇ A little more clarity for your modding workflow
+**Know what was checked. Know what wasn't.**
 
-Mod packages contain more than the files we see at first glance. Archives, compiled scripts, metadata, dependency declarations, and content containers all tell different parts of a package's story.
+</div>
 
-**ModManifest** is a read-only command-line utility built to make that information easier to inspect.
+## ◇ Meet ModManifest
 
-It examines supported mod packages, reports structural issues, audits available metadata for AI-related indicators, and tells you where verification stops.
+Mod packages are more than the files you see at first glance.
 
-No executing unfamiliar scripts. No modifying someone else's files. No pretending that an unchecked dependency or checksum is verified.
+Archives, compiled scripts, manifests, dependencies, and metadata all contain information about how a package is structured.
+
+**ModManifest** is an open-source command-line utility designed to help modders and developers inspect that information without modifying the original package.
+
+It examines supported mod structures, identifies potential issues, audits available AI-related metadata, and generates transparent reports.
+
+Rather than making assumptions about unfamiliar content, ModManifest separates **verified findings**, **observed information**, and **unsupported checks**.
+
+No executing unfamiliar scripts. No uploading your mods. No modifying package contents.
 
 **Just structured findings, clear boundaries, and a better understanding of what you're working with.**
 
-### ✧ Supported games
+---
 
-| Game | Current inspection coverage |
-| :--- | :--- |
-| **The Sims 4** | `.package` DBPF 2.1 structure and `.ts4script` archive checks |
-| **inZOI** | Candidate mod folders, observed manifest metadata, and Unreal container inventory |
+## ✧ Features
 
-> [!IMPORTANT]
-> ModManifest is an inspection tool, not an antivirus, game compatibility checker, or official validator. A package passing its available checks does not guarantee that it is safe, compatible, authentic, or functional in-game.
+| | Capability | Description |
+| :---: | :--- | :--- |
+| 📦 | **Package Inspection** | Examine supported mod structures and identify recognized formats. |
+| 🎮 | **Game-Aware Validation** | Run supported structural checks for The Sims 4 and inZOI. |
+| 🛡️ | **Archive Safety** | Identify suspicious paths, duplicate entries, archive limits, and other structural risks. |
+| ✦ | **AI Metadata Audit** | Detect supported AI-related metadata indicators without making unsupported authorship claims. |
+| ◇ | **Structured Reports** | Generate human-readable results or machine-readable JSON. |
+| 🔒 | **Read-Only Design** | Inspect without executing scripts, extracting archives, modifying files, or uploading content. |
+
+## 🎮 Supported Games
+
+### The Sims 4
+
+**Supported formats**
+
+- `.package` files using DBPF 2.1
+- `.ts4script` ZIP-based archives
+
+**Available checks**
+
+- Package headers and signatures
+- Index and resource boundaries
+- Duplicate resource keys
+- Archive structure
+- Applicable compiled Python header information
+
+Package resources are not decoded, and script contents are not executed or analyzed.
+
+### inZOI
+
+**Supported inspection**
+
+- Candidate mod folders containing `mod_manifest.json`
+- Manifest syntax and observed metadata fields
+- Project identity, version, author, and dependency declarations
+- File references and path safety
+- Recognition of `.pak`, `.ucas`, and `.utoc` containers
+
+**Important:** inZOI inspection follows observed package conventions. It is not an official game format specification.
+
+Declared dependencies, compatibility, and unestablished checksum algorithms are not independently verified.
 
 ---
 
-## ✦ Explore ModManifest
-
-| | |
-| :--- | :--- |
-| 📦 **Package inspection** | Identify supported formats and examine their available structure. |
-| 🛡️ **Archive safety checks** | Flag suspicious paths, collisions, oversized entries, and other archive-related risks. |
-| 🎮 **Game-aware validation** | Apply format-specific checks for The Sims 4 and inZOI. |
-| ✧ **AI metadata auditing** | Surface supported metadata indicators without making unsupported authorship claims. |
-| ◇ **Structured reports** | Read findings in a terminal or export stable-schema JSON. |
-| 🔒 **Read-only operation** | No package extraction, script execution, file modification, or uploads. |
-
-### What makes it different?
-
-ModManifest separates **what it can verify** from **what it can merely observe**.
-
-A manifest declaring a dependency does not prove that the dependency is installed. A version field does not prove game compatibility. An AI-related tool name does not prove that a package was AI-generated.
-
-Those boundaries matter, especially when working with unfamiliar community-made content.
-
----
-
-## 01 / Getting started
+## 01 / Installation
 
 **Requirements:** Python 3.11 or newer.
 
-### Install
-
-ModManifest v0.1.0 is distributed through [GitHub Releases](https://github.com/CyberStudiosTM/ModManifest/releases/tag/v0.1.0). It is **not published on PyPI**, so `pip install modmanifest` will not install it.
-
-**From the GitHub Release wheel.** Download `modmanifest-0.1.0-py3-none-any.whl` from the release assets, then:
+Install the latest published version from PyPI:
 
 ```bash
-pip install modmanifest-0.1.0-py3-none-any.whl
+python -m pip install modmanifest
 ```
 
-Or install the wheel directly from its release URL:
+Verify installation:
 
 ```bash
-pip install https://github.com/CyberStudiosTM/ModManifest/releases/download/v0.1.0/modmanifest-0.1.0-py3-none-any.whl
-```
-
-**From source:**
-
-```bash
-git clone https://github.com/CyberStudiosTM/ModManifest.git
-cd ModManifest
-pip install .
-```
-
-> [!NOTE]
-> The package is named `modmanifest` in the project configuration. Distribution through GitHub Releases is not the same as availability on PyPI.
-
-### Meet the CLI
-
-```text
-modmanifest inspect PATH [--json]
-modmanifest validate PATH --game sims4|inzoi [--json]
-modmanifest audit-ai PATH [--json]
 modmanifest --version
 ```
 
-`PATH` can refer to a folder, `.zip`, `.ts4script`, or `.package`.
+Upgrade an existing installation:
 
-### Your first inspection
+```bash
+python -m pip install --upgrade modmanifest
+```
 
-Inspect a mod package:
+**Package:** [modmanifest on PyPI](https://pypi.org/project/modmanifest/)
+
+## 02 / Quick Start
+
+### Inspect a mod
 
 ```bash
 modmanifest inspect "./MyMod"
 ```
 
-Validate a Sims 4 package:
+Runs applicable archive safety, package recognition, validation, and supported metadata checks.
+
+### Validate a Sims 4 package
 
 ```bash
 modmanifest validate "./MyMod.package" --game sims4
 ```
 
-Validate an inZOI mod folder:
+### Validate an inZOI mod
 
 ```bash
 modmanifest validate "./MyInZOIMod" --game inzoi
 ```
 
-Audit supported AI metadata:
+### Audit AI-related metadata
 
 ```bash
 modmanifest audit-ai "./MyMod.zip"
 ```
 
-Export a JSON report:
+### Export a JSON report
 
 ```bash
 modmanifest inspect "./MyMod" --json
 ```
 
-### Commands at a glance
+### Command Reference
 
-| Command | What it does |
+| Command | Purpose |
 | :--- | :--- |
-| `inspect` | Archive safety, game recognition and validation, plus AI metadata auditing |
-| `validate` | Archive safety and validation for the selected game |
-| `audit-ai` | Archive safety and supported AI metadata auditing |
+| `inspect` | Run applicable inspection and auditing checks |
+| `validate` | Validate supported structures for a selected game |
+| `audit-ai` | Search supported metadata for AI-related indicators |
+| `--version` | Display the installed version |
 
-**Available options:** `--json`, `--verbose`, `--timeout`, `--max-entries`, `--max-total-mb`, `--max-entry-mb`.
+**Additional options:** `--json`, `--verbose`, `--timeout`, `--max-entries`, `--max-total-mb`, `--max-entry-mb`.
 
 ---
 
-## 02 / Understanding the findings
+## 03 / Understanding Your Results
 
-ModManifest reports results with explicit statuses rather than reducing everything to a potentially misleading pass/fail result.
+ModManifest reports findings using explicit statuses.
 
-| Status | Interpretation |
+| Status | Meaning |
 | :--- | :--- |
-| `PASS` | A particular check passed. |
-| `WARNING` | A condition deserves attention but is not reported as an error. |
-| `ERROR` | A check detected an error. |
-| `UNSUPPORTED` | The target or condition is outside supported handling. |
-| `NOT CHECKED` | The tool cannot establish the result from its available checks. |
+| `PASS` | A specific check passed |
+| `WARNING` | A condition deserves attention |
+| `ERROR` | A check identified an error |
+| `UNSUPPORTED` | The condition is outside supported inspection coverage |
+| `NOT CHECKED` | Available evidence cannot establish the result |
 
-In JSON, `NOT CHECKED` is represented as `NOT_CHECKED`.
+Each finding includes diagnostic information explaining the basis of the result.
 
-Each finding includes a registered diagnostic code and a basis for the conclusion.
-
-**Diagnostic families:** `MM-ARC-*`, `MM-SCN-*`, `MM-S4-*`, `MM-INZ-*`.
-
-**Evidence bases:** `format-rule`, `observed-convention`, `safety-limit`, `scan-coverage`.
-
-### Exit codes
+### Exit Codes
 
 | Code | Meaning |
 | :---: | :--- |
-| `0` | Scan completed without `ERROR` findings |
-| `1` | One or more `ERROR` findings |
-| `2` | Invalid arguments or missing path |
-| `3` | Incomplete scan, or a validation run that recognized nothing |
+| `0` | Scan completed without error findings |
+| `1` | One or more error findings |
+| `2` | Invalid arguments or missing target |
+| `3` | Incomplete scan or unrecognized validation target |
 
-AI metadata indicators do not affect the exit code.
-
-> [!TIP]
-> A completed scan is not the same thing as complete verification. Review `NOT CHECKED` findings and coverage information before drawing conclusions.
+**A successful scan is not a guarantee that a mod is safe, authentic, compatible, or functional in-game.**
 
 ---
 
-## 03 / Game-specific inspection
+## 04 / AI Metadata Auditing
 
-### ◇ The Sims 4
+**Metadata can provide clues. It cannot tell the entire story.**
 
-ModManifest supports structural inspection for two common Sims 4 mod formats.
+ModManifest examines supported metadata sources for potential AI-related indicators.
 
-**`.package` / DBPF 2.1**
+Sources include:
 
-Checks include the file signature, header, index size and bounds, resource ranges, and duplicate resource keys.
+- JSON, TOML, YAML, and XML
+- Text and Markdown
+- PNG text metadata
+- XMP and selected EXIF fields
+- Potential C2PA structures (detection only)
 
-The package's resource contents are not decoded.
+Findings are categorized as:
 
-**`.ts4script`**
+| Category | Interpretation |
+| :--- | :--- |
+| **Explicit Declaration** | Metadata directly declares relevant AI involvement |
+| **Tool Reference** | Metadata references an AI-associated tool or service |
+| **Ambiguous Indicator** | A possible signal without sufficient evidence for a stronger conclusion |
 
-ModManifest reads the script package as a ZIP archive, lists supported Python file entries, and checks compiled `.pyc` headers.
+### What if nothing is detected?
 
-It does not analyze or execute the script contents.
+A report stating that no supported AI metadata indicators were found means only that none were identified within the supported inspection scope.
 
-**Known boundary:** No standard Sims 4 manifest is assumed, so dependency and version information is not extracted from one.
+It does **not** prove that a mod was created without AI.
 
-### ◇ inZOI
+Likewise, detecting an AI-associated tool name does not establish that a mod was AI-generated.
 
-inZOI inspection is based on observed sample package structures.
-
-A root `mod_manifest.json` marks a **candidate package**, not a guarantee of a valid or working mod.
-
-Available inspection includes:
-
-- JSON syntax and observed field types.
-- Reported project identity, author, description, version, dependencies and game-version metadata.
-- Informational comparison of `ProjectName` with the containing folder.
-- `FileChecksums` structure, path safety and referenced-file existence.
-- Inventory of recognized `.pak`, `.ucas` and `.utoc` content containers.
-- Recognition of unrelated folders as unrecognized rather than automatically invalid.
-
-**What remains unverified**
-
-Declared dependencies and compatibility are not independently verified. File checksum digests are not checked because the algorithm and path semantics have not been established from the inspected samples.
-
-Unreal content containers are recognized, but their internal contents are not parsed. A lone `.ucas` or `.utoc` receives a warning.
-
-For best results, point ModManifest at one inZOI mod folder at a time.
-
-> [!NOTE]
-> These checks are not presented as an official inZOI package specification. Observed fields are not treated as universally required.
+**ModManifest reports evidence, not assumptions.**
 
 ---
 
-## 04 / Archive safety
+## 05 / Archive Safety
 
-Archive handling is deliberately cautious.
-
-ModManifest checks applicable targets for issues such as:
+ModManifest includes configurable safeguards for inspecting supported archives and folders.
 
 | Area | Examples |
 | :--- | :--- |
-| **Paths** | Traversal, absolute paths, drive letters, alternate streams and backslashes |
-| **Names** | Duplicate entries and case collisions |
-| **File types** | Symlinks and special files |
-| **Resources** | Entry count, per-entry and total size, compression ratio |
-| **Archive integrity** | Signature mismatches and encrypted entries |
-| **Nested archives** | Listed without opening their contents |
+| Paths | Traversal, absolute paths, drive letters, alternate streams |
+| Entries | Duplicate names and case collisions |
+| File types | Symlinks and special files |
+| Resources | Entry count, file size, compression ratios |
+| Integrity | Signature mismatches and encrypted entries |
+| Nested archives | Identification without recursively opening contents |
 
-Encrypted entries are reported as unsupported. Scan limits are configurable.
+Scan limits can be adjusted using the available CLI options.
 
 The tool does not extract archives or execute their contents.
 
 ---
 
-## 05 / AI metadata audit
+## 06 / JSON Reporting
 
-**Metadata can provide clues. It cannot tell the entire story.**
-
-ModManifest searches supported metadata sources for AI-related indicators and classifies its findings as:
-
-| Category | Meaning |
-| :--- | :--- |
-| **Explicit declaration** | Metadata directly declares relevant AI involvement. |
-| **Tool reference** | Metadata names a tool or service associated with AI. |
-| **Ambiguous indicator** | A possible signal that does not establish a reliable conclusion. |
-
-The audit examines supported JSON, TOML, YAML, XML, text and Markdown metadata, PNG text chunks, XMP, and selected EXIF fields.
-
-Potential C2PA structures can be detected, but are not fully parsed or signature-verified.
-
-### When nothing appears
-
-> No supported AI metadata indicators found.
-
-This means exactly what it says.
-
-It does **not** prove that a package was made without AI. Metadata may be absent, stripped, incomplete, or outside supported formats.
-
-Confidence descriptions apply to the interpretation of metadata, not the certainty of a package's creative origin.
-
-Prompt text is never copied into generated reports.
-
----
-
-## 06 / JSON reports
-
-For automation, tooling, or additional analysis, use the `--json` option.
-
-ModManifest provides schema version `1`.
-
-The report contains structured information about:
-
-- The command and target.
-- Game recognition and scan coverage.
-- Detected file types and capabilities exercised.
-- Package metadata.
-- Diagnostic findings and summary counts.
-- Unsupported conditions and inspection errors.
-- AI metadata indicators.
-
-Top-level fields include:
-
-`tool`, `version`, `command`, `target`, `game`, `scan`, `recognized_files`, `capabilities_exercised`, `package`, `findings`, `summary`, `unsupported`, `inspection_errors`, `ai_metadata`.
-
-Target names are reduced to base names instead of absolute local paths. Untrusted control and bidirectional characters are escaped.
-
----
-
-## 07 / Current limitations
-
-ModManifest is intentionally precise about its coverage.
-
-- Format validation relies on public format knowledge and observed samples, not official vendor specifications.
-- Sims 4 resources and scripts are not decoded, analyzed or executed.
-- Unreal `.pak`, `.ucas` and `.utoc` internals are not parsed.
-- Declared game compatibility and dependencies are not verified.
-- Unestablished inZOI checksum algorithms are not guessed.
-- AI audits cover supported metadata, not every possible binary or content source.
-- 7z, RAR and other unsupported archive types may be listed without opening them.
-- Passing checks does not establish safety, authenticity, or in-game functionality.
-
-Transparency is part of the tool's design.
-
----
-
-## 08 / For developers
-
-Want to help improve format coverage, documentation, diagnostics, or tests?
-
-Clone the repository and install the development dependencies:
+For developers building automation or analysis workflows, ModManifest provides structured JSON output.
 
 ```bash
-pip install -e ".[dev]"
+modmanifest inspect "./MyMod" --json
 ```
 
-Run the checks:
+**Current report schema:** `1`
 
-```bash
-ruff check .
-ruff format --check .
-pytest
-```
+Reports include information about:
 
-Read the [contributing guide](CONTRIBUTING.md) before submitting changes.
+- Target and command
+- Game recognition
+- Inspection coverage
+- Recognized file types
+- Package metadata
+- Diagnostic findings
+- Unsupported conditions
+- AI-related metadata indicators
 
-Especially useful contributions include reproducible bug reports, synthetic test cases, and evidence-based improvements to recognized formats.
-
-Please do not commit copyrighted third-party mod packages as test fixtures.
+JSON output is designed to make results easier to process programmatically.
 
 ---
 
-## ✦ Project links
+## 07 / Scope & Limitations
 
-| | |
+> **IMPORTANT**
+>
+> ModManifest is not antivirus software, a malware scanner, an official game validator, or a runtime compatibility tester.
+
+Current limitations include:
+
+- Sims 4 package resources are not decoded.
+- Script contents are not executed or analyzed.
+- Unreal content container internals are not parsed.
+- Game compatibility and dependencies are not independently verified.
+- Unsupported archive formats may be recognized without being opened.
+- AI auditing is limited to supported metadata sources.
+- Passing checks does not guarantee a mod is safe or functional.
+
+**Transparency is part of the design.**
+
+When something cannot be verified, ModManifest reports that limitation rather than guessing.
+
+---
+
+## ✧ Documentation & Resources
+
+| Resource | Link |
 | :--- | :--- |
-| **Source code** | [CyberStudiosTM/ModManifest](https://github.com/CyberStudiosTM/ModManifest) |
-| **Bug reports and ideas** | [Issues](https://github.com/CyberStudiosTM/ModManifest/issues) |
-| **Contributing** | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| **Security** | [SECURITY.md](SECURITY.md) |
-| **Version history** | [CHANGELOG.md](CHANGELOG.md) |
-| **License** | [MIT](LICENSE) |
-| **CyberStudios** | [GitHub organization](https://github.com/CyberStudiosTM) |
+| ☁️ Project Website | [Explore ModManifest](https://cyberthreed.github.io/CyberStudios/projects/modmanifest.html) |
+| 📖 Documentation Wiki | [Read the Documentation](https://github.com/cyberthreed/CyberStudios/wiki/ModManifest) |
+| 💻 Source Code | [GitHub Repository](https://github.com/CyberStudiosTM/ModManifest) |
+| 📦 PyPI | [Python Package](https://pypi.org/project/modmanifest/) |
+| 🐛 Issues & Feedback | [Report an Issue](https://github.com/CyberStudiosTM/ModManifest/issues) |
+| ✧ Changelog | [Version History](https://github.com/CyberStudiosTM/ModManifest/blob/main/CHANGELOG.md) |
+| ♡ Contributing | [Contribution Guide](https://github.com/CyberStudiosTM/ModManifest/blob/main/CONTRIBUTING.md) |
 
 ---
 
 <div align="center">
 
-### ✧ Built within CyberStudios™
+### ✦ Built within CyberStudios™
 
-*Tools for creators, developers, and the worlds they build.*
+*Creative technology, developer tools, and interactive experiences.*
 
 **Inspect with curiosity. Report with precision.**
 
-MIT Licensed · Copyright © CyberStudios
+[CyberStudios Website](https://cyberthreed.github.io/CyberStudios/) · [GitHub Organization](https://github.com/CyberStudiosTM)
+
+MIT Licensed · © CyberStudios™
 
 </div>
