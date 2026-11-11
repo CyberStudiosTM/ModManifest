@@ -62,18 +62,30 @@ Those boundaries matter, especially when working with unfamiliar community-made 
 
 ### Install
 
+ModManifest v0.1.0 is distributed through [GitHub Releases](https://github.com/CyberStudiosTM/ModManifest/releases/tag/v0.1.0). It is **not published on PyPI**, so `pip install modmanifest` will not install it.
+
+**From the GitHub Release wheel.** Download `modmanifest-0.1.0-py3-none-any.whl` from the release assets, then:
+
 ```bash
-pip install modmanifest
+pip install modmanifest-0.1.0-py3-none-any.whl
 ```
 
-Install directly from a local checkout:
+Or install the wheel directly from its release URL:
 
 ```bash
+pip install https://github.com/CyberStudiosTM/ModManifest/releases/download/v0.1.0/modmanifest-0.1.0-py3-none-any.whl
+```
+
+**From source:**
+
+```bash
+git clone https://github.com/CyberStudiosTM/ModManifest.git
+cd ModManifest
 pip install .
 ```
 
 > [!NOTE]
-> The package is named `modmanifest` in the project configuration. Check the [repository](https://github.com/CyberStudiosTM/ModManifest) for its current distribution status.
+> The package is named `modmanifest` in the project configuration. Distribution through GitHub Releases is not the same as availability on PyPI.
 
 ### Meet the CLI
 
